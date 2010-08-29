@@ -1,32 +1,5 @@
 (function() {
 
-  var nodejo = {
-    init: function(conn) {
-      this.attachListeners(conn);
-    },
-    attachListeners: function() {
-      var that = this;
-      conn.onopen = function() {
-        that.conn = conn;
-      };                                               
-      conn.onclose = function() {
-        that.conn = undefined;
-      };                                               
-      conn.onmessage = function(e) {                 
-        var message = e.data;
-        if (that.onmessage) {
-          that.onmessage(message);
-        }
-      };
-    },                                  
-    onmessage: function(message) { /* override */ },
-    send: function(message) {
-      if (conn) {
-        conn.send(message);
-      }
-    }
-  };
-
   var conn;
   var code = $('#code');
   var responseDiv = $('#response')[0]; 
@@ -37,15 +10,14 @@
     
     // Chrome, Safari
     
-    
     conn = new WebSocket("ws://127.0.0.1:3000/");        
-    nodejo.init(conn);
+    socket.init(conn);
     $(document).unload(function() {
       conn.close();
     });
     
     submit = function() {
-      nodejo.send(code.val());
+      socket.send(code.val());
     };
 
     var actions = {
@@ -63,7 +35,7 @@
       }
     };
  
-    nodejo.onmessage = function(json) { 
+    socket.onmessage = function(json) { 
       try {
         var message = $.parseJSON(json);
         for(var key in message) {        
