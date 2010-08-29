@@ -6,10 +6,10 @@ var nodejowebsocket = require('./lib/nodejo.websocket');
 
 var app = module.exports = express.createServer();
 
-//process.setuid('nobody');
+// Become nobody
+process.setuid('nobody');
 
 // Configuration
-
 app.configure(function(){
   app.set('views', __dirname + '/views');
   app.use(connect.bodyDecoder());
@@ -27,9 +27,7 @@ app.configure('production', function(){
   app.use(connect.errorHandler()); 
 });
          
-
 // Routes
-
 app.get('/', function(req, res) {
   res.render(
     'index.jade', 
@@ -40,13 +38,14 @@ app.get('/', function(req, res) {
     }
   );
 });          
-nodejohttp.configure(app);
-// Websocket-server
 
+// Websocket evalutation
 nodejowebsocket.configure(app);
- 
-// Only listen on $ node app.js
 
+// Fallback HTTP POST evaluation
+nodejohttp.configure(app);
+
+// Only listen on $ node app.js
 if (!module.parent) {
   app.listen(3000);
 }
