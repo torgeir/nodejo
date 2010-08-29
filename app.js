@@ -21,7 +21,6 @@ app.configure(function(){
   app.use(connect.compiler({ src: __dirname + '/public', enable: ['less'] }));
   app.use(app.router);         
   app.use(connect.staticProvider(__dirname + '/public'));
-  app.use(connect.staticProvider(__dirname + '/socket.io'));
 });
 
 app.configure('development', function(){
