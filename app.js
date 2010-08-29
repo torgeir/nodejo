@@ -1,17 +1,13 @@
-
-/**
- * Module dependencies.
- */
-
-var express = require('express'),
-    connect = require('connect');    
-
-var ws = require('./vendor/websocket-server/lib/ws');
+var express = require('express');
+var connect = require('connect');    
 var nodejo = require('./lib/nodejo');    
+var nodejohttp = require('./lib/nodejo.http');
+var nodejowebsocket = require('./lib/nodejo.websocket');
 
-var sys = require('sys');
 var app = module.exports = express.createServer();
-                            
+
+//process.setuid('nobody');
+
 // Configuration
 
 app.configure(function(){
@@ -30,8 +26,10 @@ app.configure('development', function(){
 app.configure('production', function(){
   app.use(connect.errorHandler()); 
 });
+         
 
-// Routes           
+// Routes
+
 app.get('/', function(req, res) {
   res.render(
     'index.jade', 
@@ -42,15 +40,13 @@ app.get('/', function(req, res) {
     }
   );
 });          
-app.post('/eval', nodejo.routes.eval);
-
+nodejohttp.configure(app);
 // Websocket-server
-var socket = ws.createServer({ server: app });
-socket.addListener("listening", function(){});
-socket.addListener('close', function(client) {});
-socket.addListener('connection', function(client) {
-  nodejo.handleWebsocketConnection(client);
-});
 
+nodejowebsocket.configure(app);
+ 
 // Only listen on $ node app.js
-if (!module.parent) app.listen(3000);
+
+if (!module.parent) {
+  app.listen(3000);
+}
