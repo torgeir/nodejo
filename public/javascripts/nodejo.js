@@ -29,7 +29,7 @@
 
   var conn;
   if (window["WebSocket"]) {
-    conn = new WebSocket("ws://localhost:3000/");        
+    conn = new WebSocket("ws://127.0.0.1:3000/");        
     nodejo.init(conn);
   }  
   $(document).unload(function() {
@@ -67,14 +67,14 @@
       var content = responseDiv.innerHTML;
       responseDiv.innerHTML = content + '</pre>';
     },
-    'codeErr': function() {
-        
+    'codeErr': function(err) {
+      responseDiv.innerHTML = '<pre>' + err + '</pre>';
     }
   };
   
   nodejo.onmessage = function(json) { 
     try {
-      var message = jQuery.parseJSON(json);
+      var message = $.parseJSON(json);
       for(var key in message) {        
         var data = message[key];
         var action = actions[key];

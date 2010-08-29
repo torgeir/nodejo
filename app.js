@@ -42,15 +42,16 @@ app.get('/', function(req, res) {
       }
     }
   );
-});
+});          
+app.post('/eval', nodejo.routes.eval);
 
+// Websocket-server
 var socket = ws.createServer({ server: app });
 socket.addListener("listening", function(){});
 socket.addListener('close', function(client) {});
 socket.addListener('connection', function(client) {
-  nodejo.handle(client);
+  nodejo.handleWebsocketConnection(client);
 });
 
 // Only listen on $ node app.js
-
 if (!module.parent) app.listen(3000);
