@@ -3,7 +3,7 @@
   var conn;
   var code = $('#code');
   var responseDiv = $('#response')[0]; 
-  var submitButton = $('#submit');
+  var submitButton = $('#run');
   var submit;  
   
   if (window["WebSocket"]) {
@@ -17,7 +17,7 @@
     });
     
     submit = function() {
-      socket.send(code.val());
+      socket.send(editor.getCode());   
     };
 
     var actions = {
@@ -35,7 +35,7 @@
       }
     };
  
-    socket.onmessage = function(json) { 
+    socket.onmessage = function(json) {                  
       try {
         var message = $.parseJSON(json);
         for(var key in message) {        
@@ -54,8 +54,8 @@
     
     // Others
     
-    submit = function() {
-      AjaxStream.request('/eval', 'code=' + encodeURIComponent(code.val()), function(response) {
+    submit = function() {               
+      AjaxStream.request('/eval', 'code=' + encodeURIComponent(editor.getCode()), function(response) {
         responseDiv.innerHTML = response.responseText;
       });
     };

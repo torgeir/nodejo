@@ -1,20 +1,19 @@
-h1= title
-p Welcome to #{title}!
-p Enter some code and press run!
-p Code:
-textarea#code(rows: '10', cols: '80')
-  | var sys = require('sys');\n
-  | setTimeout(function() {\n
-  |     sys.print('is ');\n
-  | }, 1000);\n
-  | setTimeout(function() {\n
-  |     sys.puts('awesome!');\n 
-  | }, 2000);\n
-  | sys.print('Async ');
-input(id: 'submit', value: 'Run!', type: 'submit', style: 'display: block')
-p Result:
+//h1= title                                                 
+div#codewrap
+  textarea#code
+    | var sys = require('sys');\nsetTimeout(function() {\n  sys.print('is ');\n}, 1000);\nsetTimeout(function() {\n  sys.puts('awesome!');\n}, 2000);\nsys.print('Async ');
+input(id: 'run', value: 'Run!', type: 'submit', style: 'display: block')
 div#response
 script(type: "text/javascript", src: "/javascripts/jquery.js")
 script(type: "text/javascript", src: "/javascripts/ajaxstream.js")
 script(type: "text/javascript", src: "/javascripts/socket.js")
+script(type: "text/javascript", src: "/javascripts/codemirror/js/codemirror.js")
 script(type: "text/javascript", src: "/javascripts/nodejo.js")
+:javascript
+  | var editor = CodeMirror.fromTextArea('code', {
+  |   height: '200px',
+  |   parserfile: ['tokenizejavascript.js', 'parsejavascript.js'],
+  |   stylesheet: ['/javascripts/codemirror/css/nodejo.jscolors.css'],
+  |   path: '/javascripts/codemirror/js/',
+  |   tabMode: 'spaces'
+  | });

@@ -1,7 +1,8 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", "Helvetica Nueue", Arial, sans-serif;
+  font: 1.5em monospace;
+  background-color: #33342e;
 }
-textarea {
-  font: 14px "Courier New";
+#response {
+  padding: 0.5em;
+  color: #ccc;
 }
