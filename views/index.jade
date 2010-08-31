@@ -7,13 +7,13 @@ div#response
 script(type: "text/javascript", src: "/javascripts/jquery.js")
 script(type: "text/javascript", src: "/javascripts/ajaxstream.js")
 script(type: "text/javascript", src: "/javascripts/socket.js")
-script(type: "text/javascript", src: "/javascripts/codemirror/js/codemirror.js")
+script(type: "text/javascript", src: "/javascripts/codemirror/codemirror.js")
 script(type: "text/javascript", src: "/javascripts/nodejo.js")
 :javascript
   | var editor = CodeMirror.fromTextArea('code', {
   |   height: '200px',
   |   parserfile: ['tokenizejavascript.js', 'parsejavascript.js'],
-  |   stylesheet: ['/javascripts/codemirror/css/nodejo.jscolors.css'],
-  |   path: '/javascripts/codemirror/js/',
+  |   stylesheet: ['/stylesheets/nodejo.jscolors.css'],
+  |   path: '/javascripts/codemirror/',
   |   tabMode: 'spaces'
   | });
