@@ -1,7 +1,7 @@
 //h1= title                                                 
 div#codewrap
   textarea#code
-    | var sys = require('sys');\nsetTimeout(function() {\n  sys.print('is ');\n}, 1000);\nsetTimeout(function() {\n  sys.puts('awesome!');\n}, 2000);\nsys.print('Async ');
+    | var assert = require('assert');\n// implementation\ntry {\n  // assert.implementationWorks()\n} catch (e) {\n  return console.log('Tests failed: ' + e);\n}\nconsole.log('Tests passed.')
 input(id: 'run', value: 'Run!', type: 'submit', style: 'display: block')
 div#response
 script(type: "text/javascript", src: "/javascripts/jquery.js")
