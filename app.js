@@ -25,7 +25,6 @@ app.configure('production', function(){
 
   // Become nobody
   process.setuid('nobody');
-
 });
          
 // Routes
