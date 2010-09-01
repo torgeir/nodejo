@@ -6,9 +6,6 @@ var nodejowebsocket = require('./lib/nodejo.websocket');
 
 var app = module.exports = express.createServer();
 
-// Become nobody
-process.setuid('nobody');
-
 // Configuration
 app.configure(function(){
   app.set('views', __dirname + '/views');
@@ -25,6 +22,10 @@ app.configure('development', function(){
 
 app.configure('production', function(){
   app.use(connect.errorHandler()); 
+
+  // Become nobody
+  process.setuid('nobody');
+
 });
          
 // Routes
