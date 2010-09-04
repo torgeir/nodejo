@@ -2,7 +2,7 @@ body {
   font: 1.5em monospace;
   background-color: #33342e;
 }
-#response {
+#coderesponse {
   padding: 0.5em;
   color: #ccc;
 }

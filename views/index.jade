@@ -3,11 +3,14 @@ div#codewrap
   textarea#code
     | var assert = require('assert');\n// implementation\ntry {\n  // assert.implementationWorks()\n} catch (e) {\n  return console.log('Tests failed: ' + e);\n}\nconsole.log('Tests passed.')
 input(id: 'run', value: 'Run!', type: 'submit', style: 'display: block')
-div#response
+div#coderesponse      
+div#snippets
 script(type: "text/javascript", src: "/javascripts/jquery.js")
+script(type: "text/javascript", src: "/javascripts/json.js")
 script(type: "text/javascript", src: "/javascripts/ajaxstream.js")
 script(type: "text/javascript", src: "/javascripts/socket.js")
 script(type: "text/javascript", src: "/javascripts/codemirror/codemirror.js")
+script(type: "text/javascript", src: "/javascripts/snippets.js")
 script(type: "text/javascript", src: "/javascripts/nodejo.js")
 :javascript
   | var editor = CodeMirror.fromTextArea('code', {

@@ -2,13 +2,14 @@
 
   var conn;
   var code = $('#code');
-  var responseDiv = $('#response')[0]; 
+  var responseDiv = $('#coderesponse')[0]; 
   var submitButton = $('#run');
-  var submit;  
+  var submit;               
   
   if (window["WebSocket"]) {
     
     // Chrome, Safari
+    var snippetsWidget = SnippetsManager.createWidget();
     
     conn = new WebSocket("ws://127.0.0.1:3000/");        
     socket.init(conn);
@@ -17,7 +18,7 @@
     });
     
     submit = function() {
-      socket.send(editor.getCode());   
+      socket.send(JSON.stringify({ code: editor.getCode() }));   
     };
 
     var actions = {
@@ -32,6 +33,12 @@
       },
       'codeErr': function(err) {
         responseDiv.innerHTML = '<pre>' + err + '</pre>';
+      },
+      'snippetAdd': function(snippet) {
+        snippetsWidget.add(snippet);
+      },
+      'snippet': function(snippet) {
+        editor.setCode(snippet);
       }
     };
  
@@ -48,6 +55,10 @@
       } catch(e) {
         responseDiv.innerHTML = '<pre>Error parsing json from server.</pre>';
       }
+    };
+    
+    window.onhashchange = function() {
+      socket.send(JSON.stringify({ snippet: window.location.hash.replace('#', '') }));
     };
   }  
   else {                           
