@@ -1,14 +1,15 @@
 (function() {
 
-  var ListDisplay = function(id, parent) {
+  var ListDisplay = function(conf) {
     this.list = document.createElement('ul');
-    this.list.id = id;
-    parent.appendChild(this.list);                      
+    this.list.id = conf.id;
+    conf.parent.appendChild(this.list);        
+    this.conf = conf;              
   };
   ListDisplay.prototype = {
     append: function(el) {
       var li = document.createElement('li');
-      li.className = 'item';
+      li.className = this.conf.itemClass;
       li.appendChild(el);
       this.list.appendChild(li);
       return li;
@@ -21,36 +22,37 @@
     }
   };
                                             
-  var SnippetsWidget = function(display, conf) {
+  var SnippetsWidget = function(display) {
     this.display = display;
-    this.conf = conf;
   };
   SnippetsWidget.prototype = {
     add: function(key) {          
       var textNode = document.createTextNode(key);
-      var el = this.display.append(textNode);
-      $(el).data('hash', key);
+      var item = this.display.append(textNode);
+      var element = $(item);
+      element.data('hash', key);
     }
   };
 
   var SnippetsManager = {
     createWidget: function(conf) {          
       conf = conf || {
-        id: 'snippets',
-        parent: $('div#snippets')
+        id: 'snippets-display',
+        parent: $('div#snippets')[0],
+        itemClass: 'item'
       };                                                      
                
-      if (!conf.parent.length) {
+      if (!conf.parent) {
         throw 'SnippetsManager: you need to provide a parent';
       }                 
 
-      $('.item').live('click', function(item) {
+      $('.' + conf.itemClass).live('click', function(item) {
         var li = $(item.target);
         window.location.hash = li.data('hash');
       });
 
-      var display = new ListDisplay(conf.id + '-display', conf.parent[0]);
-      var snippetsWidget = new SnippetsWidget(display, conf);
+      var display = new ListDisplay(conf);
+      var snippetsWidget = new SnippetsWidget(display);
       return snippetsWidget;
     }
   };                                                       
