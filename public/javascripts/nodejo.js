@@ -10,7 +10,7 @@
     // Chrome, Safari
     var snippetsWidget = SnippetsManager.createWidget();
     
-    conn = new WebSocket("ws://127.0.0.1:3000/");        
+    conn = new WebSocket("ws://torgeir.at:3000/");        
     socket.init(conn);
     $(document).unload(function() {
       conn.close();
