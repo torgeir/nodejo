@@ -10,7 +10,7 @@
     // Chrome, Safari
     var snippetsWidget = SnippetsManager.createWidget();
     
-    conn = new WebSocket("ws://127.0.0.1:3000/");        
+    conn = new WebSocket("ws://10.0.0.8:3000/");        
     socket.init(conn);
     $(document).unload(function() {
       conn.close();
@@ -63,9 +63,9 @@
     
   }
              
-  var runCodeOnCtrlEnter = function(event) {
+  var runCodeOnCtrlEnter = function(event) {  
     var isEnter = (event.keyCode == '13');
-    if (event.ctrlKey && isEnter) {
+    if (event.ctrlKey && (isEnter)) {
       submit();
     }        
   };
