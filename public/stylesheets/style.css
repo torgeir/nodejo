@@ -1,8 +1,55 @@
 body {
   font: 1.5em monospace;
-  background-color: #33342e;
+  background-color: #333333;
+  height: 100%;
+}
+aside, section {
+  margin: 2em 2em 0 2em;
+}
+aside ul {
+  list-style-type: none;
+  overflow: hidden;
+  border: 1px solid black;
+  white-space: nowrap;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+}
+aside ul, aside ul li {
+  height: 3em;
+}
+aside ul li:hover {
+  background-color: #333333;
+  color: white;
+}
+aside ul li {
+  display: inline;
+  line-height: 3em;
+  padding: 1em;
+  border-right: 1px solid black;
+  background-color: #222222;
+  color: #555555;
+}
+#leftcol {
+  float: left;
+  width: 50%;
+}
+#rightcol {
+  float: left;
+  width: 40%;
 }
 #coderesponse {
-  padding: 0.5em;
-  color: #ccc;
+  float: left;
+  padding: 1em 0;
+  margin: 0;
+  color: white;
+}
+pre {
+  margin: 0 auto;
+}
+#help {
+  clear: both;
+  padding: 2em;
+  color: #555555;
+  text-align: center;
 }

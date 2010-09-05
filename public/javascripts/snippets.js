@@ -14,6 +14,13 @@
       this.list.appendChild(li);
       return li;
     },
+    prepend: function(el) {
+      var li = document.createElement('li');
+      li.className = this.conf.itemClass;
+      li.appendChild(el)
+      $(this.list).prepend(li);
+      return li;
+    },
     remove: function(el) {
       this.list.removeChild(el);
     },
@@ -21,14 +28,30 @@
       this.list.innerHTML = '';
     }
   };
+                                                       
+  var formatDate = function(date) {
+    date = new Date(date) || new Date();
+    
+    var format = function(date) {
+      return date < 10 ? '0' + date : date;
+    };
+    
+    return [
+      format(date.getHours()),
+      ':',
+      format(date.getMinutes()),
+      ':',
+      format(date.getSeconds())
+    ].join('');
+  }
                                             
   var SnippetsWidget = function(display) {
     this.display = display;
   };
   SnippetsWidget.prototype = {
-    add: function(key) {          
-      var textNode = document.createTextNode(key);
-      var item = this.display.append(textNode);
+    add: function(key, date) {   
+      var textNode = document.createTextNode(formatDate(date));
+      var item = this.display.prepend(textNode);
       var element = $(item);
       element.data('hash', key);
     }
@@ -38,7 +61,7 @@
     createWidget: function(conf) {          
       conf = conf || {
         id: 'snippets-display',
-        parent: $('div#snippets')[0],
+        parent: $('#snippets')[0],
         itemClass: 'item'
       };                                                      
                
@@ -46,7 +69,7 @@
         throw 'SnippetsManager: you need to provide a parent';
       }                 
 
-      $('.' + conf.itemClass).live('click', function(item) {
+      $('.' + conf.itemClass).live('click', function(item) {  
         var li = $(item.target);
         window.location.hash = li.data('hash');
       });
