@@ -53,3 +53,6 @@ pre {
   color: #555555;
   text-align: center;
 }
+#help, #code, .CodeMirror-wrapping {
+  display: none;
+}

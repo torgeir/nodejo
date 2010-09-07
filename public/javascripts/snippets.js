@@ -1,31 +1,22 @@
-(function() {
+(function() {                        
 
   var ListDisplay = function(conf) {
-    this.list = document.createElement('ul');
-    this.list.id = conf.id;
-    conf.parent.appendChild(this.list);        
-    this.conf = conf;              
+    var list = $('<ul></ul>');
+    var parent = $(conf.parent);
+    this.itemClass = conf.itemClass;
+    list.id = conf.id;
+    this.list = $(list);
+    parent.append(list);        
   };
+  
   ListDisplay.prototype = {
-    append: function(el) {
-      var li = document.createElement('li');
-      li.className = this.conf.itemClass;
-      li.appendChild(el);
-      this.list.appendChild(li);
-      return li;
-    },
     prepend: function(el) {
-      var li = document.createElement('li');
-      li.className = this.conf.itemClass;
-      li.appendChild(el)
-      $(this.list).prepend(li);
+      var li = $('<li></li>');
+      li.addClass(this.itemClass);
+      li.append(el);                       
+      li.fadeIn(1000);
+      this.list.prepend(li);
       return li;
-    },
-    remove: function(el) {
-      this.list.removeChild(el);
-    },
-    clear: function() {
-      this.list.innerHTML = '';
     }
   };
                                                        
@@ -51,9 +42,8 @@
   SnippetsWidget.prototype = {
     add: function(key, date) {   
       var textNode = document.createTextNode(formatDate(date));
-      var item = this.display.prepend(textNode);
-      var element = $(item);
-      element.data('hash', key);
+      var li = this.display.prepend(textNode);
+      li.data('hash', key);
     }
   };
 
@@ -61,11 +51,11 @@
     createWidget: function(conf) {          
       conf = conf || {
         id: 'snippets-display',
-        parent: $('#snippets')[0],
+        parent: '#snippets',
         itemClass: 'item'
       };                                                      
                
-      if (!conf.parent) {
+      if (!conf.parent) {    
         throw 'SnippetsManager: you need to provide a parent';
       }                 
 

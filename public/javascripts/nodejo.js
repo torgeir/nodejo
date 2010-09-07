@@ -1,80 +1,97 @@
-(function() {
+var nodejo = (function() {
 
-  var conn;
-  var code = $('#code');
-  var responseDiv = $('#coderesponse')[0]; 
-  var submit; 
+  /* Web socket connection */
+  var connection;
   
-  if (window["WebSocket"]) {
-    
-    // Chrome, Safari
-    var snippetsWidget = SnippetsManager.createWidget();
-    
-    conn = new WebSocket("ws://10.0.0.8:3000/");        
-    socket.init(conn);
-    $(document).unload(function() {
-      conn.close();
-    });
-    
-    submit = function() {
-      socket.send(JSON.stringify({ code: editor.getCode() }));   
-    };
- 
-    socket.onmessage = function(json) {   
-      messageHandler.handle(json, {
-        'codeStart': function() {
-          responseDiv.innerHTML = '';
-        },
-        'codeChunk': function(chunk) {
-          responseDiv.innerHTML = responseDiv.innerHTML + chunk;
-        },
-        'codeEnd': function() {
-          responseDiv.innerHTML = '<pre>' + responseDiv.innerHTML + '</pre>';
-        },
-        'codeErr': function(err) {
-          responseDiv.innerHTML = err;
-        },
-        'snippetAdd': function(snippet) {
-          snippetsWidget.add(snippet.key, snippet.date);
-        },
-        'snippet': function(snippet) {         
-          editor.setCode(snippet.code);
-        }
-      });
-    };
+  /* Response html element  */
+  var responseEl;
+  
+  /* Codemirror js-editor */
+  var editor;                           
+  
+  /* Snippets widget */
+  var snippets;
+  
+  var init = function(conf) {         
+    responseEl  = $(conf.responseSelector);
+    editor      = conf.editor;
+    attachEventListeners();                                             
+                                                                     
+    // Only for those with websockets
+    window['WebSocket'] && setupWebSocket(conf.wsurl);
+    snippets = window['WebSocket'] && SnippetsManager.createWidget();
+  };
 
-    var fetchCodeFromHash = function() {    
-      socket.send(JSON.stringify({ snippet: window.location.hash.replace('#', '') }));
+  var setupWebSocket = function(url) {  
+    connection = new WebSocket(url);
+    connection.onopen = fetchCodeFromHash;
+    // conn.onclose = function() {};
+    connection.onmessage = function(e) {
+      var json = e.data;
+      handleMessage(json);
     };
+    $(document).unload(function() {
+      connection.close();
+    });         
+  };                                   
+
+  var attachEventListeners = function() {
     window.onhashchange = fetchCodeFromHash;   
-    setTimeout(function() {
-      fetchCodeFromHash();
-    }, 100);
-  }  
-  else {                           
-    
-    // Others
-    
-    submit = function() {               
-      AjaxStream.request('/eval', 'code=' + encodeURIComponent(editor.getCode()), function(response) {
-        responseDiv.innerHTML = response.responseText;
-      });
-    };
-    
-  }
-             
+    $(document).keyup(runCodeOnCtrlEnter);
+    $(editor.win).keyup(runCodeOnCtrlEnter)
+  };                                 
+        
+  var fetchCodeFromHash = function() {    
+    var hash = window.location.hash;
+    if (connection && hash) {
+      connection.send(JSON.stringify({ snippet: hash.replace('#', '') }));
+    }   
+  };    
+  
   var runCodeOnCtrlEnter = function(event) {  
     var isEnter = (event.keyCode == '13');
-    if (event.ctrlKey && (isEnter)) {
-      submit();
+    if (event.ctrlKey && isEnter) {
+      submitCode();
     }        
-  };
-  code.keyup(runCodeOnCtrlEnter);
-  $(document).keyup(runCodeOnCtrlEnter);
+  };                        
   
-  // Export                     
-  this.nodejo = {
-    run: runCodeOnCtrlEnter
+  var submitCode = function() {
+    var code = editor.getCode(); 
+    if (connection) {
+      connection.send(JSON.stringify({ code: code }));
+    }           
+    else {
+      AjaxStream.request('/eval', 'code=' + encodeURIComponent(code), function(response) {
+        responseEl.html(response.responseText);
+      });
+    }
+  };         
+                                     
+  var handleMessage = function(json) {
+    messageHandler.handle(json, {
+      'codeStart': function() {
+        responseEl.html('');
+      },
+      'codeChunk': function(chunk) {
+        responseEl.append(chunk);
+      },
+      'codeEnd': function() {
+        responseEl.html('<pre>' + responseEl.html() + '</pre>');
+      },
+      'codeErr': function(err) {
+        responseEl.html(err);
+      },
+      'snippetAdd': function(snippet) {
+        snippets.add(snippet.key, snippet.date);
+      },
+      'snippet': function(snippet) {         
+        editor.setCode(snippet.code);
+      }
+    });
   };
+                              
+  return {
+    init: init
+  };               
   
 })();
