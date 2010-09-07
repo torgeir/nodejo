@@ -75,9 +75,7 @@ var nodejo = (function() {
       'codeChunk': function(chunk) {
         responseEl.append(chunk);
       },
-      'codeEnd': function() {
-        responseEl.html('<pre>' + responseEl.html() + '</pre>');
-      },
+      'codeEnd': function() {},
       'codeErr': function(err) {
         responseEl.html(err);
       },
