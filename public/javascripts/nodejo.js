@@ -96,8 +96,17 @@ var nodejo = (function() {
         snippets.add(snippet.key, snippet.date, snippet.name);
       },
       'snippet': function(snippet) {   
-        if (editor) {      
+        try {
           editor.setCode(snippet.code);
+        } catch (e) {
+          // fail silently
+        }
+      },
+      'moveCursorToLine': function(line) {
+        try {
+          editor.jumpToLine(editor.nthLine(line));
+        } catch (e) {
+          // fail silently
         }
       }
     });

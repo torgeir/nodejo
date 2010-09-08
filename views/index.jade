@@ -5,7 +5,7 @@ section
 aside#snippets
 section#leftcol 
   textarea#code
-    | var assert = require('assert');\n\n// implementation\n\ntry {\n\n  // assert.implementationWorks()\n\n} catch (e) {\n  return console.log('Tests failed: ' + e);\n}\nconsole.log('Tests passed.')
+    | // node.js\nvar assert = require('assert');\n\nvar f = function() {\n  return false;\n};\n\nassert.ok(f());\n\nconsole.log('Tests passed.')
         
 section#rightcol
   pre#coderesponse
