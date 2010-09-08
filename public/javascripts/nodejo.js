@@ -90,7 +90,7 @@ var nodejo = (function() {
       },
       'codeEnd': function() {},
       'codeErr': function(err) {
-        responseEl.html(escapeHTML(err));
+        responseEl.html(escapeHTML(err));   
       },
       'snippetAdd': function(snippet) {
         snippets.add(snippet.key, snippet.date, snippet.name);
