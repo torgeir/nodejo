@@ -44,7 +44,7 @@
       var div = document.createElement('div');
       var title = document.createTextNode(name);
       div.appendChild(title);
-      var li = this.display.prepend(div.innerHTML + ' ' + formatDate(date));
+      var li = this.display.prepend(div.innerHTML + ' (' + formatDate(date) + ')');
       li.data('hash', key);
     }
   };
