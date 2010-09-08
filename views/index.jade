@@ -16,7 +16,6 @@ script(type: "text/javascript", src: "/javascripts/codemirror/codemirror.js")
 script(type: "text/javascript", src: "/javascripts/snippets.js")
 script(type: "text/javascript", src: "/javascripts/nodejo.js")
 :javascript
-  | $('#help').fadeIn(1000);
   | var editor = CodeMirror.fromTextArea('code', {
   |   height: '70%',              
   |   parserfile: ['tokenizejavascript.js', 'parsejavascript.js'],
@@ -24,7 +23,7 @@ script(type: "text/javascript", src: "/javascripts/nodejo.js")
   |   path: '/javascripts/codemirror/',
   |   tabMode: 'indent',
   |   indentUnit: '2',
-  |   initCallback: function() { $(editor.wrapping).fadeIn(1000); }
+  |   initCallback: function() { $(editor.wrapping).fadeIn(100); $('#help').fadeIn(100); }
   | });          
   | nodejo.init({
   |  editor: editor,

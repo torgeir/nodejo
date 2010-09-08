@@ -66,6 +66,13 @@ var nodejo = (function() {
       });
     }
   };         
+                 
+  var escapeHTML = function(html) {
+    var div = document.createElement('div');
+    var textNode = document.createTextNode(html);
+    div.appendChild(textNode);
+    return div.innerHTML;
+  };
                                      
   var handleMessage = function(json) {
     messageHandler.handle(json, {
@@ -73,11 +80,11 @@ var nodejo = (function() {
         responseEl.html('');
       },
       'codeChunk': function(chunk) {
-        responseEl.append(chunk);
+        responseEl.append(escapeHTML(chunk));
       },
       'codeEnd': function() {},
       'codeErr': function(err) {
-        responseEl.html(err);
+        responseEl.html(escapeHTML(err));
       },
       'snippetAdd': function(snippet) {
         snippets.add(snippet.key, snippet.date);
