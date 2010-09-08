@@ -11,9 +11,12 @@ var nodejo = (function() {
   
   /* Snippets widget */
   var snippets;
+                
+  var nameEl;
   
   var init = function(conf) {         
     responseEl  = $(conf.responseSelector);
+    nameEl      = $(conf.nameSelector);
     editor      = conf.editor;
     attachEventListeners();                                             
                                                                      
@@ -25,7 +28,9 @@ var nodejo = (function() {
   var setupWebSocket = function(url) {  
     connection = new WebSocket(url);
     connection.onopen = fetchCodeFromHash;
-    // conn.onclose = function() {};
+    connection.onclose = function() {
+      
+    };
     connection.onmessage = function(e) {
       var json = e.data;
       handleMessage(json);
@@ -57,8 +62,9 @@ var nodejo = (function() {
   
   var submitCode = function() {
     var code = editor.getCode(); 
+    var nameWithoutHtml = nameEl.html().replace(/<\/?[^>]+>/gi, '');
     if (connection) {
-      connection.send(JSON.stringify({ code: code }));
+      connection.send(JSON.stringify({ code: { text: code, name: nameWithoutHtml } }));
     }           
     else {
       AjaxStream.request('/eval', 'code=' + encodeURIComponent(code), function(response) {
@@ -87,10 +93,12 @@ var nodejo = (function() {
         responseEl.html(escapeHTML(err));
       },
       'snippetAdd': function(snippet) {
-        snippets.add(snippet.key, snippet.date);
+        snippets.add(snippet.key, snippet.date, snippet.name);
       },
-      'snippet': function(snippet) {         
-        editor.setCode(snippet.code);
+      'snippet': function(snippet) {   
+        if (editor) {      
+          editor.setCode(snippet.code);
+        }
       }
     });
   };

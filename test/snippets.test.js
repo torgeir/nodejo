@@ -12,7 +12,7 @@ module.exports = {
   'should save snippets': function(assert, beforeExit) {
     var code = 'something';
     var result;
-    snippets.add(code, function(snippet) {
+    snippets.add(code, 'someName', function(snippet) {
       snippets.get(snippet.key, function(snippet) {
         result = snippet.code;
       });
@@ -24,7 +24,7 @@ module.exports = {
   'should remove snippets': function(assert, beforeExit) {
     var code = 'alert()';         
     var result = null;
-    snippets.add(code, function(snippet) {
+    snippets.add(code, 'someName', function(snippet) {
       snippets.remove(snippet.key, function() {
         snippets.get(snippet.key, function(snippet) {
           result = snippet;
@@ -37,8 +37,8 @@ module.exports = {
   },
   'should be able to loop snippets': function(assert, beforeExit) {
     var res = '';  
-    snippets.add('1', function() {
-      snippets.add('2', function() {
+    snippets.add('1', '1', function() {
+      snippets.add('2', '2', function() {
         snippets.each(function(snippet) {
           res += snippet.code;
         });

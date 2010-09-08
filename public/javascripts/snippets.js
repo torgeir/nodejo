@@ -34,15 +34,17 @@
       ':',
       format(date.getSeconds())
     ].join('');
-  }
-                                            
+  }   
+  
   var SnippetsWidget = function(display) {
     this.display = display;
   };
   SnippetsWidget.prototype = {
-    add: function(key, date) {   
-      var textNode = document.createTextNode(formatDate(date));
-      var li = this.display.prepend(textNode);
+    add: function(key, date, name) {          
+      var div = document.createElement('div');
+      var title = document.createTextNode(name + ' (' + formatDate(date) + ')');
+      div.appendChild(title);
+      var li = this.display.prepend(div.innerHTML);
       li.data('hash', key);
     }
   };

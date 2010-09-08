@@ -1,3 +1,7 @@
+section
+  span.group(id: 'name', contenteditable: 'true')
+    | Enter group name..  
+
 aside#snippets
 section#leftcol 
   textarea#code
@@ -26,7 +30,8 @@ script(type: "text/javascript", src: "/javascripts/nodejo.js")
   |   initCallback: function() { $(editor.wrapping).fadeIn(100); $('#help').fadeIn(100); }
   | });          
   | nodejo.init({
-  |  editor: editor,
+  |  editor: editor,     
+  |  nameSelector: '#name',
   |  responseSelector: '#coderesponse', 
   |  wsurl: 'ws://127.0.0.1:3000/'
   | });

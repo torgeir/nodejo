@@ -56,3 +56,11 @@ pre {
 #help, #code, .CodeMirror-wrapping {
   display: none;
 }
+@font-face {
+  font-family: Diavlo;
+  src: url(/fonts/Diavlo_LIGHT_II_37.otf) format("opentype");/* License: A font by Jos Buivenga (exljbris) -> www.exljbris.com */
+}
+.group {
+  font-family: Diavlo;
+  font-size: 1.5em;
+}
