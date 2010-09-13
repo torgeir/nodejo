@@ -74,7 +74,8 @@
         that.freeze();
       });
       l.bind('mouseout', function() {              
-        if (mouseIsOver) {
+        if (mouseIsOver) {        
+          that.speed = 0;
           that.unfreeze();
           mouseIsOver = false;            
         }
