@@ -61,6 +61,9 @@
           that.speed = speed * Math.abs(speed) * 0.00003;
         }                 
       });                          
+      l.bind('mousedown', function() {
+        that.speed = 0;
+      });
     },                     
     attachMouseOverListeners: function() {
       var l = this.display.list;
@@ -74,7 +77,6 @@
         if (mouseIsOver) {
           that.unfreeze();
           mouseIsOver = false;            
-          that.speed = -10;
         }
       });
     },
@@ -95,8 +97,12 @@
     freeze: function() {
       this.useQueue = true;
     },
-    unfreeze: function() {
-      this.useQueue = false;
+    unfreeze: function() {                       
+      var that = this;
+      this.useQueue = false;   
+      if (this.queue.length) {
+        that.speed = -10;
+      }
       while (this.queue.length) {
         var args = this.queue.pop();
         this.add.apply(this, args);
