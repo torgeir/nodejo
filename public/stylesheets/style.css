@@ -15,6 +15,10 @@ aside ul {
   margin: 0;
   cursor: pointer;
 }
+aside ul:hover {
+  overflow-x: scroll;
+  height: 3.8em;
+}
 aside ul, aside ul li {
   height: 3em;
 }
