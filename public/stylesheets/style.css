@@ -4,33 +4,28 @@ body {
   height: 100%;
 }
 aside, section {
-  margin: 2em 2em 0 2em;
+  margin: 1.5em 1.5em 0 1.5em;
 }
 aside ul {
   list-style-type: none;
   overflow: hidden;
-  border: 1px solid black;
+  -webkit-border-radius: 0.5em;
   white-space: nowrap;
   padding: 0;
   margin: 0;
   cursor: pointer;
 }
-aside ul:hover {
-  overflow-x: scroll;
-  height: 3.8em;
-}
 aside ul, aside ul li {
-  height: 3em;
+  height: 2.7em;
 }
 aside ul li:hover {
-  background-color: #333333;
   color: white;
 }
 aside ul li {
   display: inline;
-  line-height: 3em;
+  line-height: 2.7em;
   padding: 1em;
-  border-right: 1px solid black;
+  border-right: 0.2em dashed #333333;
   background-color: #222222;
   color: #555555;
 }
@@ -43,7 +38,6 @@ aside ul li {
   width: 30%;
 }
 #coderesponse {
-  float: left;
   padding: 1em 0;
   margin: 0;
   color: white;
@@ -60,11 +54,23 @@ pre {
 #help, #code, .CodeMirror-wrapping {
   display: none;
 }
+#codewrap {
+  background-color: #222222;
+  padding: 1em;
+  margin: 0;
+  -webkit-border-radius: 0.5em;
+}
 @font-face {
   font-family: Diavlo;
   src: url(/fonts/Diavlo_LIGHT_II_37.otf) format("opentype");/* License: A font by Jos Buivenga (exljbris) -> www.exljbris.com */
 }
+.group:hover {
+  border: 0.07em dashed #222222;
+}
 .group {
+  border: 0.07em solid transparent;
+  -webkit-border-radius: 0.22em;
   font-family: Diavlo;
   font-size: 1.6em;
+  padding: 0.2em 0.1em 0.1em 0;
 }

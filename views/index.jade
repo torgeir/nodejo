@@ -3,9 +3,10 @@ section
     | Enter group name..  
 
 aside#snippets
-section#leftcol 
-  textarea#code
-    | // node.js\nvar assert = require('assert');\n\nvar f = function() {\n  return false;\n};\n\nassert.ok(f());\n\nprocess.on('exit', function() {\n  console.log('Tests passed.');\n});
+section#leftcol
+  section#codewrap
+    textarea#code
+      | // node.js\nvar assert = require('assert');\n\nvar f = function() {\n  return false;\n};\n\nassert.ok(f());\n\nprocess.on('exit', function() {\n  console.log('Tests passed.');\n});
         
 section#rightcol
   pre#coderesponse
@@ -33,5 +34,5 @@ script(type: "text/javascript", src: "/javascripts/nodejo.js")
   |  editor: editor,     
   |  nameSelector: '#name',
   |  responseSelector: '#coderesponse', 
-  |  wsurl: 'ws://127.0.0.1:3000/'
+  |  wsurl: 'ws://mimas.lan:3000/'
   | });

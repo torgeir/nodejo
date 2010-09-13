@@ -1,7 +1,9 @@
 @darkgrey: #222;
-@lightgrey: #333;
+@lightgrey: #333;        
 @lighttext: white;
-@darktext: #555;   
+@darktext: #555;          
+@roundedborder: 0.5em;  
+@snippetheight: 2.7em;
 
 body {
   font: 1.5em monospace;
@@ -10,33 +12,28 @@ body {
 }                  
 aside,
 section {
-  margin: 2em 2em 0 2em;
+  margin: 1.5em 1.5em 0 1.5em;
 }
 aside ul {
   list-style-type: none;
   overflow: hidden;
-  border: 1px solid black;
+  -webkit-border-radius: @roundedborder;
   white-space: nowrap;
   padding: 0;        
   margin: 0;
   cursor: pointer;
 } 
-aside ul:hover {
-  overflow-x: scroll;
-  height: 3.8em;
-}
 aside ul, aside ul li {
-  height: 3em;
+  height: @snippetheight;
 }
 aside ul li:hover {
-  background-color: @lightgrey;
   color: @lighttext;
 }                   
 aside ul li {
   display: inline;
-  line-height: 3em;  
+  line-height: @snippetheight;  
   padding: 1em;      
-  border-right: 1px solid black;
+  border-right: 0.2em dashed @lightgrey;
   background-color: @darkgrey;    
   color: @darktext;      
 }
@@ -49,7 +46,6 @@ aside ul li {
   width: 30%;
 }             
 #coderesponse {
-  float: left;
   padding: 1em 0;
   margin: 0;
   color: @lighttext;
@@ -66,13 +62,26 @@ pre {
 #help,           
 #code,
 .CodeMirror-wrapping {
-  display: none;
+  display: none;    
+}
+
+#codewrap {
+  background-color: @darkgrey;
+  padding: 1em;
+  margin: 0;
+  -webkit-border-radius: @roundedborder;
 }
 @font-face {
   font-family: Diavlo;
 	src: url(/fonts/Diavlo_LIGHT_II_37.otf) format("opentype"); /* License: A font by Jos Buivenga (exljbris) -> www.exljbris.com */
 }
-.group {
+.group:hover {
+  border: 0.07em dashed @darkgrey;
+}
+.group {   
+  border: 0.07em solid transparent;
+  -webkit-border-radius: 0.22em;
   font-family: Diavlo;
   font-size: 1.6em;  
+  padding: 0.2em 0.1em 0.1em 0;
 }

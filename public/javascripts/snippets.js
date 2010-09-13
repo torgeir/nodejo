@@ -37,15 +37,70 @@
   }   
   
   var SnippetsWidget = function(display) {
-    this.display = display;
+    this.display = display;        
+    this.speed = 0;
+    this.attachMouseScrollListeners();
+    this.attachMouseOverListeners();
+    this.queue = [];
+    this.useQueue = false;
   };
   SnippetsWidget.prototype = {
+    attachMouseScrollListeners: function() {
+      var that = this;
+      setInterval(function() {
+        that.move();
+      }, 10);                                   
+      
+      var l = this.display.list;               
+      l.bind('mousemove', function(e) {
+        var speed = e.clientX - (l.width() / 2);
+        if (Math.abs(speed) < 200) {
+          that.speed = 0;
+        }                                    
+        else {
+          that.speed = speed * Math.abs(speed) * 0.00003;
+        }                 
+      });                          
+    },                     
+    attachMouseOverListeners: function() {
+      var l = this.display.list;
+      var mouseIsOver = false;
+      var that = this;
+      l.bind('mouseover', function() {
+        mouseIsOver = true;
+        that.freeze();
+      });
+      l.bind('mouseout', function() {              
+        if (mouseIsOver) {
+          that.unfreeze();
+          mouseIsOver = false;            
+          that.speed = -10;
+        }
+      });
+    },
+    move: function() {               
+      this.display.list.scrollLeft( this.display.list.scrollLeft() + this.speed);
+    },
     add: function(key, date, name) {          
+      if (this.useQueue) {
+        this.queue.push(arguments);
+        return;
+      }
       var div = document.createElement('div');
       var title = document.createTextNode(name);
       div.appendChild(title);
       var li = this.display.prepend(div.innerHTML + ' (' + formatDate(date) + ')');
-      li.data('hash', key);
+      li.data('hash', key);  
+    },
+    freeze: function() {
+      this.useQueue = true;
+    },
+    unfreeze: function() {
+      this.useQueue = false;
+      while (this.queue.length) {
+        var args = this.queue.pop();
+        this.add.apply(this, args);
+      }
     }
   };
 
