@@ -1,22 +1,23 @@
-var nodejowebsocket = require('../lib/nodejo.websocket');
+var nodejo = require('../lib/nodejo');
+var fs = require('fs');
+var path = require('path');
 
 module.exports = {
-	'should serve code for websockets': function(assert, beforeExit) {
-	  
-    var actual = '';
-    var code = "var sys = require('sys'); setTimeout(function() {sys.print('works');}, 100);";
-    var websocketMockClient = {
-      send : function(code) {
-        actual += code;
-      }
-    };
-    
-    nodejowebsocket.serveCode(code, websocketMockClient);
-    
-    beforeExit(function() {
-  		var expected = '{\"codeStart\":null}\{\"codeChunk\":\"works\"}\{\"codeEnd\":null}';
-      assert.equal(expected, actual);
+  'should remove tmp file after run' : function(assert, beforeExit) {
+    var filePath = '/tmp/nodejs_removal_test.js';
+    var fileIsRemoved = false;
+
+    fs.writeFile(filePath, '// noop', function(err) {
+      var node = nodejo.spawnNodeFromFile(filePath);  
+      node.on('exit', function() {
+	path.exists(filePath, function(exists) {
+	  fileIsRemoved = !exists;
+	});
+      });
     });
 
+    beforeExit(function() {
+      assert.ok(fileIsRemoved);
+    });
   }
-};
+}
