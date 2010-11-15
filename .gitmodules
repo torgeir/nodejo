@@ -3,4 +3,4 @@
 	url = http://github.com/miksago/node-websocket-server.git
 [submodule "vendor/codemirror"]
 	path = vendor/codemirror
-	url = http://marijn.haverbeke.nl/git/codemirror
+	url = http://marijnhaverbeke.nl/git/codemirror
